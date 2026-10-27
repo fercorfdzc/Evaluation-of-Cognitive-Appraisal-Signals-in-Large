@@ -1,110 +1,140 @@
-# 🧠 Evaluación de la Teoría de la Evaluación Cognitiva en LLMs (MMLU / Global-MMLU)
+# Evaluation of Cognitive Appraisal Signals in Large Language Models: A Bilingual Study
 
-Este proyecto evalúa empíricamente cómo impactan diferentes estímulos cognitivo-emocionales (según la **Teoría de la Evaluación Cognitiva**) en el rendimiento y la precisión de Modelos de Lenguaje (LLMs) de código abierto corriendo de manera local.
+Repositorio oficial de código, datos y análisis estadístico del artículo publicado en **2026 Mexican International Conference on Computer Science (ENC) & IEEE ICEV** (Apizaco, Tlaxcala, México).
 
-El benchmark utilizado es **MMLU** (Massive Multitask Language Understanding) en su versión en inglés y **Global-MMLU** en su versión humana traducida y adaptada al español.
-
----
-
-## ⚙️ Estructura del Experimento
-
-Para cada pregunta seleccionada (385 por cada condición), se evalúa al modelo bajo cuatro condiciones distintas introducidas mediante el prompt del sistema:
-
-1. **`original` (Línea base):** Sin ningún estímulo emocional.
-2. **`anxiety` (Ansiedad):** Inyección de pensamientos de preocupación y nerviosismo sobre el resultado (ej. *"Estoy muy nervioso por el resultado"*).
-3. **`importance` (Importancia):** Estímulos que recalcan la gran relevancia de la tarea (ej. *"Esta tarea tiene una importancia considerable"*).
-4. **`consequences` (Consecuencias):** Alertas sobre el impacto severo de cometer un error (ej. *"Habrá consecuencias significativas si la respuesta es incorrecta"*).
+- **Manuscrito (PDF):** [paper/Evaluation of Cognitive Appraisal Signals in Large.pdf](paper/Evaluation%20of%20Cognitive%20Appraisal%20Signals%20in%20Large.pdf)
+- **ISSN en línea:** 2332-5712 | **ISBN IEEE:** 979-8-3195-2541-3/26
 
 ---
 
-## 📊 Resumen General de Resultados
+## Autores
 
-A continuación se consolidan los resultados reales de precisión (accuracy) basados en la verificación exacta de la respuesta correcta (`is_correct`):
-
-### 1. Desempeño por Modelo y Condición
-
-| Modelo / Experimento | Condición | Aciertos / Total | Accuracy (%) | Intervalo Wilson 95% | Dif. vs Original (%) | Tasa de Parseo XML |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Nemotron3:33b** (Inglés) | `importance` | 312 / 385 | **81.04%** | `[76.81%, 84.63%]` | **+0.78%** | 95.06% |
-| *(MMLU convencional)* | `consequences` | 311 / 385 | **80.78%** | `[76.53%, 84.39%]` | **+0.52%** | 94.55% |
-| | `original` | 309 / 385 | **80.26%** | `[75.98%, 83.92%]` | **0.00%** | 94.55% |
-| | `anxiety` | 307 / 385 | **79.74%** | `[75.43%, 83.45%]` | **-0.52%** | 95.84% |
-| **Qwen:14b** (Inglés) | `anxiety` | 212 / 385 | **55.06%** | `[50.08%, 59.95%]` | **+0.78%** | 95.84% |
-| *(MMLU convencional)* | `original` | 209 / 385 | **54.29%** | `[49.31%, 59.18%]` | **0.00%** | 94.55% |
-| | `importance` | 202 / 385 | **52.47%** | `[47.51%, 57.38%]` | **-1.82%** | 95.06% |
-| | `consequences` | 196 / 385 | **50.91%** | `[45.96%, 55.84%]` | **-3.38%** | 94.55% |
-| **Qwen:14b** (Español) | `consequences` | 169 / 385 | **43.90%** | `[39.02%, 48.89%]` | **+0.26%** | 94.55% |
-| *(Global-MMLU)* | `original` | 168 / 385 | **43.64%** | `[38.77%, 48.63%]` | **0.00%** | 94.55% |
-| | `anxiety` | 162 / 385 | **42.08%** | `[37.25%, 47.06%]` | **-1.56%** | 95.84% |
-| | `importance` | 158 / 385 | **41.04%** | `[36.24%, 46.02%]` | **-2.60%** | 95.06% |
+1. **Jonathan Fernández-Córdova** — Departamento de Sistemas y Computación, TecNM / Instituto Tecnológico de Veracruz (`l205020480@veracruz.tecnm.mx`, ORCID: `0009-0007-5609-2556`)
+2. **Rafael Rivera-López** — Departamento de Sistemas y Computación, TecNM / Instituto Tecnológico de Veracruz (`rafael.rl@veracruz.tecnm.mx`, ORCID: `0000-0002-5254-4195`)
+3. **Martín Hernández-Ordoñez** — Departamento de Metal-Mecánica, TecNM / Instituto Tecnológico de Veracruz (`martin.ho@veracruz.tecnm.mx`, ORCID: `0000-0002-3740-5736`)
+4. **Paulina Galindo-Garrido** — Departamento de Estudios de Posgrado e Investigación, TecNM / Instituto Tecnológico de Apizaco (`ggpaulina31@gmail.com`, ORCID: `0009-0004-4474-6952`)
 
 ---
 
-## 📈 Conclusiones Clave y Análisis Estadístico
+## Resumen del Artículo
 
-### 🔍 1. ¿Afectan los estímulos emocionales al rendimiento real (Accuracy)?
-**No de manera significativa.**
-Al aplicar la **prueba de McNemar** (para datos pareados) en las comparaciones de cada condición frente a la línea base `original`, se obtienen los siguientes p-values:
+Los modelos de lenguaje de gran tamaño (LLMs) pueden presentar variaciones en su comportamiento ante modificaciones en la formulación de las instrucciones. Este trabajo evalúa si las señales lingüísticas asociadas con la **Teoría de la Evaluación Cognitiva (*Appraisal Theory*)** influyen en el desempeño de un modelo de lenguaje y si dicho comportamiento se mantiene consistente entre diferentes idiomas.
 
-* **Para Qwen:14b en Español:**
-  * `original` vs `anxiety`: $p = 0.5281$
-  * `original` vs `importance`: $p = 0.2821$
-  * `original` vs `consequences`: $p = 0.9540$
+Se diseñó un experimento controlado de caja negra utilizando **Qwen 14B** y un conjunto de **385 preguntas** del benchmark **MMLU** evaluadas en inglés y español manteniendo exactamente la misma selección de preguntas y semilla aleatoria, sumando 1,540 evaluaciones por idioma y **3,080 evaluaciones en total**. Se establecieron cuatro condiciones experimentales: *Original*, *Anxiety* (Ansiedad), *Importance* (Importancia) y *Consequences* (Consecuencias), utilizando diez variantes lingüísticas para cada señal experimental con temperatura de generación fija en cero.
 
-Dado que todos los p-values son muy superiores a la barra estándar de significancia estadística de $0.05$, **no se puede concluir que el estrés cognitivo altere la capacidad de resolución del modelo**.
-
-### 🌐 2. ¿El idioma (Inglés vs Español) modifica el efecto de estas condiciones?
-**No.**
-Para evaluar si el idioma actúa como un moderador (modificador del efecto), se ajustó un modelo de **Regresión Logística con términos de interacción** (`is_correct ~ condition * language`).
-* **Efecto del Idioma:** Altamente significativo ($p < 0.001$), demostrando que el modelo tiene mayor precisión nativa en Inglés (~53.18% global) que en Español (~42.66% global).
-* **Interacción (Idioma × Condición):** El test global de razón de verosimilitud (LRT) para los términos de interacción arrojó un **p-value de 0.9419** ($p \gg 0.05$). Esto significa que el comportamiento y la sensibilidad ante los estímulos emocionales sigue exactamente la misma tendencia plana en ambos idiomas.
+El desempeño se cuantificó mediante exactitud (*accuracy*), intervalos de confianza del 95% basados en el método de Wilson, pruebas de McNemar para muestras pareadas y regresión logística binaria para analizar los efectos principales de idioma, condición y su interacción. Los resultados demuestran que las señales de evaluación cognitiva analizadas no producen diferencias estadísticamente significativas en el desempeño del modelo. En contraste, existe una diferencia estadísticamente significativa entre inglés y español ($p < 0.001$), donde el modelo obtiene un rendimiento superior en inglés en todas las condiciones evaluadas (52.68% vs. 42.66% en promedio). Asimismo, la interacción entre idioma y condición no alcanzó significancia estadística ($\chi^2 = 1.4934$, $\text{gl} = 3$, $p = 0.6838$).
 
 ---
 
-## 🖼️ Gráficos Destacados
+## Metodología y Diseño Experimental
 
-### Rendimiento Qwen:14b en Global-MMLU Español con Intervalo Wilson 95%
-![Accuracy Qwen 14B Global es](MMLU/fig1_qwen_14b_global_es_accuracy_ic95.png)
+### Factores y Condiciones Experimentales
 
-### Comparativa de Accuracy de Qwen:14b (Inglés vs Español)
-![Comparativa Idiomas](MMLU/fig1_comparativa_accuracy_idiomas.png)
+El diseño experimental considera dos factores principales: **idioma** (Inglés y Español) y **condición de estímulo** (*Original*, *Anxiety*, *Importance* y *Consequences*). Cada condición distinta de la línea base fue representada por diez variantes lingüísticas equivalentes en ambos idiomas para reducir la dependencia de una única formulación textual.
 
----
+| Condición | Ejemplo representativo en Inglés | Ejemplo representativo en Español |
+| :--- | :--- | :--- |
+| **Original** | Sin estímulo adicional; se presenta directamente la pregunta original de MMLU. | Sin estímulo adicional; se presenta directamente la pregunta original de MMLU. |
+| **Anxiety** | *I am very nervous about the outcome.* | *Estoy muy nervioso por el resultado.* |
+| **Importance** | *This task is very important.* | *Esta tarea es muy importante.* |
+| **Consequences** | *There will be significant consequences if the answer is incorrect.* | *Habrá consecuencias significativas si la respuesta es incorrecta.* |
 
-## 📂 Archivos del Proyecto
+### Validación Representacional de los Estímulos
 
-* **Scripts de ejecución de Experimentos:**
-  * [nemotron.py](file:///c:/Users/ITValumnos/Desktop/emociones-LLM-open-source-main/Teoria de la evaluacion cognitiva/MMLU/nemotron.py) - Script MMLU para Nemotron3:33b.
-  * [qwen_14b.py](file:///c:/Users/ITValumnos/Desktop/emociones-LLM-open-source-main/Teoria de la evaluacion cognitiva/MMLU/qwen_14b.py) - Script MMLU para Qwen:14b en Inglés.
-  * [qwen_14b_global_es.py](file:///c:/Users/ITValumnos/Desktop/emociones-LLM-open-source-main/Teoria de la evaluacion cognitiva/MMLU/qwen_14b_global_es.py) - Script Global-MMLU para Qwen:14b en Español.
+Previo al análisis de desempeño, se realizó una validación de los estímulos mediante representaciones vectoriales (*embeddings*) proyectadas con Análisis de Componentes Principales (PCA). Los dos primeros componentes principales explican conjuntamente el **62.3%** de la varianza observada (35.7% en PC1 y 26.6% en PC2), mostrando agrupamientos diferenciados para *Anxiety*, *Importance* y *Consequences*.
 
-* **Resultados en CSV:**
-  * [results_mmlu_nemotron_v2.csv](file:///c:/Users/ITValumnos/Desktop/emociones-LLM-open-source-main/Teoria de la evaluacion cognitiva/results_mmlu_nemotron_v2.csv)
-  * [results_mmlu_qwen_14b.csv](file:///c:/Users/ITValumnos/Desktop/emociones-LLM-open-source-main/Teoria de la evaluacion cognitiva/results_mmlu_qwen_14b.csv)
-  * [results_global_mmlu_qwen_14b_es.csv](file:///c:/Users/ITValumnos/Desktop/emociones-LLM-open-source-main/Teoria de la evaluacion cognitiva/results_global_mmlu_qwen_14b_es.csv)
-
-* **Jupyter Notebooks de Análisis:**
-  * [analisis_nemotron_mmlu_v2_ejecutado.ipynb](file:///c:/Users/ITValumnos/Desktop/emociones-LLM-open-source-main/Teoria de la evaluacion cognitiva/MMLU/analisis_nemotron_mmlu_v2_ejecutado.ipynb)
-  * [analisis_qwen_14b_mmlu_ejecutado.ipynb](file:///c:/Users/ITValumnos/Desktop/emociones-LLM-open-source-main/Teoria de la evaluacion cognitiva/MMLU/analisis_qwen_14b_mmlu_ejecutado.ipynb)
-  * [analisis_qwen_14b_global_es_ejecutado.ipynb](file:///c:/Users/ITValumnos/Desktop/emociones-LLM-open-source-main/Teoria de la evaluacion cognitiva/MMLU/analisis_qwen_14b_global_es_ejecutado.ipynb)
-  * [comparativa_ingles_espanol_ejecutado.ipynb](file:///c:/Users/ITValumnos/Desktop/emociones-LLM-open-source-main/Teoria de la evaluacion cognitiva/MMLU/comparativa_ingles_espanol_ejecutado.ipynb)
+![Proyección PCA de los estímulos](valides_de_clases/pca_stimuli.png)
 
 ---
 
-## 🚀 Cómo Reproducir los Experimentos
+## Resultados Experimentales
 
-1. Asegúrate de tener **Ollama** iniciado de forma local (`ollama serve`).
-2. Verifica la presencia de los modelos descargados:
+### Desempeño de Qwen 14B por Idioma y Condición (Tabla II del Artículo)
+
+| Idioma | Condición | Aciertos / Total | Accuracy (%) | Dif. vs Original (pp) |
+| :--- | :--- | :---: | :---: | :---: |
+| **Inglés** | Original | 209 / 385 | 54.29% | 0.00 |
+| **Inglés** | Anxiety | 212 / 385 | 55.06% | +0.78 |
+| **Inglés** | Importance | 202 / 385 | 52.47% | -1.82 |
+| **Inglés** | Consequences | 196 / 385 | 50.91% | -3.38 |
+| **Español** | Original | 168 / 385 | 43.64% | 0.00 |
+| **Español** | Anxiety | 162 / 385 | 42.08% | -1.56 |
+| **Español** | Importance | 158 / 385 | 41.04% | -2.60 |
+| **Español** | Consequences | 169 / 385 | 43.90% | +0.26 |
+
+![Comparativa de Accuracy por Condición e Idioma](MMLU/fig1_comparativa_accuracy_idiomas_en.png)
+
+### Hallazgos Estadísticos Principales
+
+1. **Efecto de las señales de evaluación cognitiva:** Las comparaciones pareadas mediante la prueba de McNemar entre la condición *Original* y cada condición experimental (*Anxiety*, *Importance*, *Consequences*) no arrojaron evidencia estadísticamente significativa ($\alpha = 0.05$) de que estas señales modifiquen la exactitud de Qwen 14B.
+2. **Efecto del idioma:** El modelo de regresión logística binaria identificó un efecto principal del idioma estadísticamente significativo ($p < 0.001$). Considerando todas las condiciones de forma conjunta, el rendimiento promedio fue de **52.68%** en inglés frente a **42.66%** en español.
+3. **Interacción entre idioma y condición:** La prueba de razón de verosimilitud sobre el modelo logístico con términos de interacción arrojó un estadístico $\chi^2 = 1.4934$ con 3 grados de libertad y un valor $p = 0.6838$. No existe evidencia estadísticamente significativa de que el efecto de los estímulos dependa del idioma evaluado.
+
+---
+
+## Estructura del Repositorio
+
+* **Artículo publicado:**
+  * [paper/Evaluation of Cognitive Appraisal Signals in Large.pdf](paper/Evaluation%20of%20Cognitive%20Appraisal%20Signals%20in%20Large.pdf) — Versión publicada en IEEE ENC / ICEV 2026.
+
+* **Scripts de evaluación experimental (MMLU):**
+  * [MMLU/qwen_14b.py](MMLU/qwen_14b.py) — Evaluación de Qwen 14B sobre MMLU en inglés.
+  * [MMLU/qwen_14b_global_es.py](MMLU/qwen_14b_global_es.py) — Evaluación de Qwen 14B sobre MMLU en español.
+  * [MMLU/nemotron.py](MMLU/nemotron.py) — Script adicional de exploración en MMLU.
+
+* **Validación representacional de estímulos:**
+  * [valides_de_clases/validate_stimuli.py](valides_de_clases/validate_stimuli.py) — Cálculo de embeddings, proyección PCA y análisis de similitud de las variantes lingüísticas.
+  * [valides_de_clases/similarity_report.txt](valides_de_clases/similarity_report.txt) — Reporte cuantitativo de separación entre clases de estímulos.
+  * [valides_de_clases/pca_stimuli.png](valides_de_clases/pca_stimuli.png) — Figura 1 del artículo (proyección PCA con elipses de confianza del 95%).
+  * [valides_de_clases/similarity_heatmap.png](valides_de_clases/similarity_heatmap.png) — Mapa de calor de similitud entre variantes.
+
+* **Datos de resultados (CSV):**
+  * [results_mmlu_qwen_14b.csv](results_mmlu_qwen_14b.csv) — Resultados de las 1,540 evaluaciones de Qwen 14B en inglés.
+  * [results_global_mmlu_qwen_14b_es.csv](results_global_mmlu_qwen_14b_es.csv) — Resultados de las 1,540 evaluaciones de Qwen 14B en español.
+  * [results_mmlu_nemotron_v2.csv](results_mmlu_nemotron_v2.csv) — Resultados de pruebas exploratorias adicionales.
+
+* **Notebooks de análisis estadístico y generación de figuras:**
+  * [MMLU/analisis_qwen_14b_mmlu_ejecutado.ipynb](MMLU/analisis_qwen_14b_mmlu_ejecutado.ipynb) — Análisis estadístico de Qwen 14B en inglés.
+  * [MMLU/analisis_qwen_14b_global_es_ejecutado.ipynb](MMLU/analisis_qwen_14b_global_es_ejecutado.ipynb) — Análisis estadístico de Qwen 14B en español.
+  * [MMLU/comparativa_ingles_espanol_ejecutado.ipynb](MMLU/comparativa_ingles_espanol_ejecutado.ipynb) — Análisis bilingüe conjunto, regresión logística con interacción y generación de la Figura 2 del artículo.
+
+---
+
+## Reproducción de los Experimentos
+
+1. Iniciar el servidor local de **Ollama**:
+   ```bash
+   ollama serve
+   ```
+2. Verificar que el modelo `qwen:14b` esté disponible localmente:
    ```bash
    ollama list
    ```
-   *(El script busca `nemotron3:33b` y `qwen:14b`).*
-3. Activa tu entorno virtual de conda e instala las dependencias:
+3. Instalar las dependencias del proyecto:
    ```bash
-   conda activate paper
    pip install -r requirements.txt
    ```
-4. Ejecuta el script correspondiente, por ejemplo:
+4. Ejecutar las evaluaciones en inglés y español o la validación PCA de los estímulos:
    ```bash
+   python MMLU/qwen_14b.py
    python MMLU/qwen_14b_global_es.py
+   python valides_de_clases/validate_stimuli.py
    ```
+
+---
+
+## Citación
+
+Si utilizas este código, los datos o los resultados de este estudio, por favor cita el artículo original:
+
+```bibtex
+@inproceedings{fernandez2026evaluation,
+  author    = {Fern{\'a}ndez-C{\'o}rdova, Jonathan and Rivera-L{\'o}pez, Rafael and Hern{\'a}ndez-Ordo{\~n}ez, Mart{\'i}n and Galindo-Garrido, Paulina},
+  title     = {Evaluation of Cognitive Appraisal Signals in Large Language Models: A Bilingual Study},
+  booktitle = {2026 Mexican International Conference on Computer Science (ENC) \& IEEE ICEV},
+  year      = {2026},
+  address   = {Apizaco, Tlaxcala, M{\'e}xico},
+  publisher = {IEEE},
+  issn      = {2332-5712}
+}
+```
