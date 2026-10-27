@@ -1,0 +1,30 @@
+# ==========================================================
+# requirements.txt
+# Proyecto: Evaluación sistemática de la sensibilidad emocional
+#           en LLMs open-source mediante MMLU, GSM8K y MT-Bench
+# ==========================================================
+
+# ── API Groq (qwen_mmlu.py) ────────────────────────────────
+groq>=0.9.0
+
+# ── Reintentos con backoff exponencial (qwen_mmlu.py) ──────
+tenacity>=8.2.3
+
+# ── Dataset MMLU ───────────────────────────────────────────
+datasets>=2.19.0
+
+# ── Barra de progreso ──────────────────────────────────────
+tqdm>=4.66.0
+
+# ── HTTP (nemotron_mmlu.py → Ollama local) ─────────────────
+requests>=2.31.0
+
+# ── Embeddings semánticos (validate_stimuli.py) ────────────
+sentence-transformers>=3.0.0
+
+# ── Álgebra lineal / similitud coseno ─────────────────────
+numpy>=1.26.0
+scikit-learn>=1.4.0
+
+# ── Gráficas ───────────────────────────────────────────────
+matplotlib>=3.8.0

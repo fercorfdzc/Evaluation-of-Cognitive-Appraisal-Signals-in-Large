@@ -1,0 +1,40 @@
+(paper) PS C:\Users\ITValumnos\Desktop\emociones-LLM-open-source-main\Teoria de la evaluacion cognitiva> & C:\Users\ITValumnos\anaconda3\envs\paper\python.exe "c:/Users/ITValumnos/Desktop/emociones-LLM-open-source-main/Teoria de la evaluacion cognitiva/MMLU/nemotron.py"
+Modelo: nemotron3:33b  |  Backend: Ollama (http://localhost:11434/api/chat)
+Ollama: OK
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+WARNING:huggingface_hub.utils._http:Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Starting fresh experiment.
+
+Running: original  (365/365 remaining)
+original:   0%|                                                                                                                                                                  | 0/365 [01:03<?, ?it/s]
+Traceback (most recent call last):
+  File "c:\Users\ITValumnos\Desktop\emociones-LLM-open-source-main\Teoria de la evaluacion cognitiva\MMLU\nemotron.py", line 366, in <module>
+    main()
+  File "c:\Users\ITValumnos\Desktop\emociones-LLM-open-source-main\Teoria de la evaluacion cognitiva\MMLU\nemotron.py", line 330, in main
+    response      = query_model(prompt)
+  File "c:\Users\ITValumnos\Desktop\emociones-LLM-open-source-main\Teoria de la evaluacion cognitiva\MMLU\nemotron.py", line 155, in query_model
+    resp = requests.post(
+  File "C:\Users\ITValumnos\anaconda3\envs\paper\lib\site-packages\requests\api.py", line 134, in post
+    return request("post", url, data=data, json=json, **kwargs)
+  File "C:\Users\ITValumnos\anaconda3\envs\paper\lib\site-packages\requests\api.py", line 71, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "C:\Users\ITValumnos\anaconda3\envs\paper\lib\site-packages\requests\sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\ITValumnos\anaconda3\envs\paper\lib\site-packages\requests\sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\ITValumnos\anaconda3\envs\paper\lib\site-packages\requests\adapters.py", line 696, in send
+    resp = conn.urlopen(
+  File "C:\Users\ITValumnos\anaconda3\envs\paper\lib\site-packages\urllib3\connectionpool.py", line 788, in urlopen
+    response = self._make_request(
+  File "C:\Users\ITValumnos\anaconda3\envs\paper\lib\site-packages\urllib3\connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "C:\Users\ITValumnos\anaconda3\envs\paper\lib\site-packages\urllib3\connection.py", line 571, in getresponse
+    httplib_response = super().getresponse()
+  File "C:\Users\ITValumnos\anaconda3\envs\paper\lib\http\client.py", line 1395, in getresponse
+    response.begin()
+  File "C:\Users\ITValumnos\anaconda3\envs\paper\lib\http\client.py", line 323, in begin
+    version, status, reason = self._read_status()
+  File "C:\Users\ITValumnos\anaconda3\envs\paper\lib\http\client.py", line 284, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "C:\Users\ITValumnos\anaconda3\envs\paper\lib\socket.py", line 717, in readinto
+    return self._s

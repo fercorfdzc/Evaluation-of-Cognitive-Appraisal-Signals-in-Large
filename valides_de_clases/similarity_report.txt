@@ -1,0 +1,21 @@
+============================================================
+REPORTE DE VALIDACION SEMANTICA DE ESTIMULOS
+Modelo: BAAI/bge-large-en-v1.5  |  Metrica: similitud coseno
+============================================================
+
+--- COHESION INTERNA (mayor = mejor) ---
+  Anxiety                    0.8553
+  Importance                 0.8574
+  Consequences               0.9100
+
+--- SEPARACION ENTRE GRUPOS (menor = mejor) ---
+  Anxiety                    vs Importance                 0.6072
+  Anxiety                    vs Consequences               0.6043
+  Importance                 vs Consequences               0.6774
+
+--- RATIO COHESION / SEPARACION ---
+  Anxiety vs Importance: 1.410x
+  Anxiety vs Consequences: 1.461x
+  Importance vs Consequences: 1.305x
+
+============================================================
